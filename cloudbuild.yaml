@@ -1,0 +1,42 @@
+steps :
+
+# build docker image 
+- name: 'gcr.io/cloud-builders/docker'
+  id: Build Image Cardless Service 
+  args:
+  - 'build'
+  - '-t'
+  - 'gcr.io/$PROJECT_ID/cardless-service:latest'
+  - '-f'
+  - 'Dockerfile'
+  - '.'
+
+# docker push to container registry
+- name: 'gcr.io/cloud-builders/docker'
+  id: Publish Image Cardless Service 
+  args:
+  - 'push'
+  - 'gcr.io/$PROJECT_ID/cardless-service:latest'
+
+# Clone deploy repository
+- name: 'gcr.io/cloud-builders/gcloud'
+  id: Clone deployment repository
+  entrypoint: /bin/sh
+  args:
+  - '-c'
+  - |
+    git clone https://github.com/sundaresanhariprasad/cardless-service-deployments.git && \
+    cd cardless-service-deployments && \
+    git checkout master && \
+    git config user.email $(gcloud auth list --filter=status:ACTIVE --format='value(account)')
+
+
+- name: 'gcr.io/cloud-builders/kubectl'
+  id: Deploy cardless service to GKE Cluster
+  args:
+  - 'apply'
+  - '-f'
+  - './cardless-service-deployments/k8/'
+  env:
+  - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'
+  - 'CLOUDSDK_CONTAINER_CLUSTER=cardless-gke-cluster'
