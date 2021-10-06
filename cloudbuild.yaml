@@ -27,7 +27,7 @@ steps :
   - |
     git clone https://github.com/sundaresanhariprasad/cardless-service-deployments.git && \
     cd cardless-service-deployments && \
-    git checkout master && \
+    git checkout main && \
     git config user.email $(gcloud auth list --filter=status:ACTIVE --format='value(account)')
 
 
