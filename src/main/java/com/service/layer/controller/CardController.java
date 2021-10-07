@@ -24,10 +24,10 @@ public class CardController {
 		return "Hello String";
 	}
 	
-	@GetMapping("/getCards/{pan}")
-	private Card getCards(@PathVariable("pan") String pan) {
+	@GetMapping("/getCards/{bin}")
+	private Card getCards(@PathVariable("bin") String bin) {
 		
-		return cardService.getCards(pan);
+		return cardService.getCards(bin);
 		
 	}
 	
