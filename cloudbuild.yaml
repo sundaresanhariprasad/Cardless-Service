@@ -36,7 +36,7 @@ steps :
   args:
   - 'apply'
   - '-f'
-  - './cardless-service-deployments/k8/'
+  - './cardless-service-deployments/k8/bridge-service'
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'
   - 'CLOUDSDK_CONTAINER_CLUSTER=cardless-gke-cluster'
